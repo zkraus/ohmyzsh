@@ -30,7 +30,7 @@ EMOJI_PLAY_BUTTON="▶️ " # contains space, due to spacing error
 
 ZSH_THEME_SHELL_SYMBOL="%{$fg_bold[blue]%}$UNI_DOTTED_RIGHT_ARROW %{$reset_color%}"
 #ZSH_THEME_SHELL_SYMBOL="%{$fg_bold[blue]%}%% %{$reset_color%}"
-ZSH_THEME_SHELL_SYMBOL_ROOT=" %{$fg_bold[red]%}#{$reset_color%} "
+ZSH_THEME_SHELL_SYMBOL_ROOT=" %{$fg_bold[red]%}#%{$reset_color%} "
 ZSH_THEME_USER_COLOR="%{$fg_bold[green]%}"
 ZSH_THEME_USER_ROOT_COLOR="%{$fg_bold[red]%}"
 
