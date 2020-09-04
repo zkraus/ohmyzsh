@@ -139,10 +139,13 @@ function get_ecode_pipe {
 function get_jobs {
 #all
     local jobs_all="$(jobs | wc -l)"
+    jobs_all="${jobs_all// }"
 #running
     local jobs_running="$(jobs -r | wc -l)"
+    jobs_running="${jobs_running// }"
 #stopped
     local jobs_stopped="$(jobs -s | wc -l)"
+    jobs_stopped="${jobs_stopped// }"
 #IDs?
     local result=""
 
@@ -181,7 +184,7 @@ function get_jobs {
 
 function get_python_venv {
     local ps_python_virtualenv=""
-    local python_version="$(python -V)"
+    local python_version="$(python -V 2>&1)"
     python_version="${python_version#Python }"
     if [[ -n $VIRTUAL_ENV ]]; then
         ps_python_virtualenv="$ZSH_THEME_PYTHON_VENV"
