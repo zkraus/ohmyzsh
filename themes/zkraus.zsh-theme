@@ -228,23 +228,23 @@ function parse_git_state {
 
   if [[ -n ${__git_status__} ]]; then
     ## WORKING TREE
-    [[ ${__git_status__} =~ \;.M ]] && __git_workt__+="M"
-    [[ ${__git_status__} =~ \;.A ]] && __git_workt__+="A"
-    [[ ${__git_status__} =~ \;.D ]] && __git_workt__+="D"
-    [[ ${__git_status__} =~ \;.R ]] && __git_workt__+="R"
-    [[ ${__git_status__} =~ \;.C ]] && __git_workt__+="C"
-    [[ ${__git_status__} =~ \;.U ]] && __git_workt__+="U"
+    [[ ${__git_status__} =~ '\;.M' ]] && __git_workt__+="M"
+    [[ ${__git_status__} =~ '\;.A' ]] && __git_workt__+="A"
+    [[ ${__git_status__} =~ '\;.D' ]] && __git_workt__+="D"
+    [[ ${__git_status__} =~ '\;.R' ]] && __git_workt__+="R"
+    [[ ${__git_status__} =~ '\;.C' ]] && __git_workt__+="C"
+    [[ ${__git_status__} =~ '\;.U' ]] && __git_workt__+="U"
 
-    [[ ${__git_status__} =~ \;.\? ]] && __git_workt__+="?"
-    [[ ${__git_status__} =~ \;.! ]] && __git_workt__+="!"
+    [[ ${__git_status__} =~ '\;.\?' ]] && __git_workt__+="?"
+    [[ ${__git_status__} =~ '\;.!' ]] && __git_workt__+="!"
 
     ## STAGE
-    [[ ${__git_status__} =~ \;M ]] && __git_stage__+="M"
-    [[ ${__git_status__} =~ \;A ]] && __git_stage__+="A"
-    [[ ${__git_status__} =~ \;D ]] && __git_stage__+="D"
-    [[ ${__git_status__} =~ \;R ]] && __git_stage__+="R"
-    [[ ${__git_status__} =~ \;C ]] && __git_stage__+="C"
-    [[ ${__git_status__} =~ \;U ]] && __git_stage__+="U"
+    [[ ${__git_status__} =~ '\;M' ]] && __git_stage__+="M"
+    [[ ${__git_status__} =~ '\;A' ]] && __git_stage__+="A"
+    [[ ${__git_status__} =~ '\;D' ]] && __git_stage__+="D"
+    [[ ${__git_status__} =~ '\;R' ]] && __git_stage__+="R"
+    [[ ${__git_status__} =~ '\;C' ]] && __git_stage__+="C"
+    [[ ${__git_status__} =~ '\;U' ]] && __git_stage__+="U"
   fi
 
   if [[ -n ${__git_branch__} ]]; then
