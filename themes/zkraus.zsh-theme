@@ -369,5 +369,5 @@ precmd_functions=(timer_stop)
 preexec_functions=(timer_start)
 
 PROMPT="\$(get_ecode_pipe),${user}${pwd}\$(parse_git_state)${shell_promt}"
-RPROMPT="\$(get_timer)\$(get_python_venv)\$(get_jobs)~"
+RPROMPT="\$(get_timer)\$(get_python_venv)\$(get_jobs)"
 
