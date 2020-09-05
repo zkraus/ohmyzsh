@@ -25,6 +25,7 @@ EMOJI_EWE="🐑"
 EMOJI_BAT="🦇"
 EMOJI_RECYCLING="♻️ " # contains space, due to spacing error
 EMOJI_PLAY_BUTTON="▶️ " # contains space, due to spacing error
+EMOJI_STOPWATCH="⏱️ "
 
 
 
@@ -70,6 +71,15 @@ ZSH_THEME_JOBS_PREFIX=" $UNI_CW_ROTATION_ARROW"
 ZSH_THEME_JOBS_SUFFIX=""
 ZSH_THEME_JOBS_RUNNING="%{$fg_bold[default]%}"
 ZSH_THEME_JOBS_STOPPED="%{$fg_bold[grey]%}/"
+
+ZSH_TIMER_TRESHOLD=60
+ZSH_TIMER_PREFIX="$EMOJI_STOPWATCH"
+ZSH_TIMER_SECONDS_PREFIX="%{$fg[gray]%}"
+ZSH_TIMER_MINUTES_TRESHOLD=300
+ZSH_TIMER_MINUTES_PREFIX="%{$fg[yellow]%}"
+ZSH_TIMER_HOURS_TRESHOLD=3600
+ZSH_TIMER_HOURS_PREFIX="%{$fg[red]%}"
+
 
 ###############################################################################
 ### Basics
@@ -280,6 +290,48 @@ function parse_git_state {
 }
 
 
+###############################################################################
+### timer section
+
+# ZSH_TIMER_TRESHOLD=60
+# ZSH_TIMER_PREFIX="$EMOJI_STOPWATCH"
+# ZSH_TIMER_SECONDS_PREFIX="%{$fg[gray]%}"
+# ZSH_TIMER_MINUTES_TRESHOLD=300
+# ZSH_TIMER_MINUTES_PREFIX="%{$fg[yellow]%}"
+# ZSH_TIMER_HOURS_TRESHOLD=3600
+# ZSH_TIMER_HOURS_PREFIX="%{$fg[red]%}"
+
+
+timer_start () {
+    export timer=${timer:-$SECONDS}
+    export ZSH_COMMAND_TIME=""
+}
+
+timer_stop () {
+    [[ -z $timer ]] && return
+    timer_show=$(($SECONDS - $timer))
+    if (( timer_show > ZSH_TIMER_TRESHOLD)); then
+        export ZSH_COMMAND_TIME="$timer_show"
+        unset timer
+    fi
+}
+
+function get_timer {
+    local timer_text
+    [[ -z $ZSH_COMMAND_TIME ]] && return
+    if ((ZSH_COMMAND_TIME < ZSH_TIMER_MINUTES_TRESHOLD)); then
+        timer_text="$ZSH_TIMER_SECONDS_PREFIX$(printf '%ds' $((ZSH_COMMAND_TIME)))"
+    elif ((ZSH_COMMAND_TIME < ZSH_TIMER_HOURS_TRESHOLD)); then
+        timer_text="$ZSH_TIMER_MINUTES_PREFIX$(printf '%dm:%02ds' $((ZSH_COMMAND_TIME%3600/60)) $((ZSH_COMMAND_TIME%60)))"
+    else
+        timer_text="$ZSH_TIMER_HOURS_PREFIX$(printf '%dh:%02dm' $((ZSH_COMMAND_TIME/3600)) $((ZSH_COMMAND_TIME%3600/60)))"
+    fi
+    echo "$ZSH_TIMER_PREFIX$timer_text%{$reset_color%}"
+
+}
+
+###############################################################################
+### section
 
 # TODO
 function get_machine {
@@ -299,7 +351,23 @@ function get_machine {
     echo "${machine}"
 }
 
+## precmd
+# Executed before each prompt. Note that precommand functions are not
+# re-executed simply because the command line is redrawn, as happens,
+# for example, when a notification about an exiting job is displayed.
+precmd_functions=(timer_stop)
+
+## preexec
+# Executed just after a command has been read and is about to be executed.
+# If the history mechanism is active (regardless of whether the line was
+# discarded from the history buffer), the string that the user typed is
+# passed as the first argument, otherwise it is an empty string. The actual
+# command that will be executed (including expanded aliases) is passed in
+# two different forms: the second argument is a single-line, size-limited
+# version of the command (with things like function bodies elided);
+# the third argument contains the full text that is being executed.
+preexec_functions=(timer_start)
 
 PROMPT="\$(get_ecode_pipe),${user}${pwd}\$(parse_git_state)${shell_promt}"
-RPROMPT="\$(get_python_venv)\$(get_jobs)"
+RPROMPT="\$(get_timer)\$(get_python_venv)\$(get_jobs)~"
 
