@@ -105,8 +105,22 @@ in a country like China or India (for certain ISPs), that blocks `raw.githubuser
 | **wget**  | `sh -c "$(wget -O- https://install.ohmyz.sh/)"`   |
 | **fetch** | `sh -c "$(fetch -o - https://install.ohmyz.sh/)"` |
 
-_Note that any previous `.zshrc` will be renamed to `.zshrc.pre-oh-my-zsh`. After installation, you can move
-the configuration you want to preserve into the new `.zshrc`._
+_Note that any previous `.zshrc` will be renamed to `.zshrc.pre-oh-my-zsh`. After installation, you can move the configuration you want to preserve into the new `.zshrc`._
+```shell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/zkraus/ohmyzsh/zkraus/tools/install.sh)"
+```
+
+#### via wget
+
+```shell
+sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+#### via fetch
+
+```shell
+sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
 
 #### Manual Inspection
 
